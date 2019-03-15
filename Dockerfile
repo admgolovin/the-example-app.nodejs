@@ -2,7 +2,7 @@ FROM node
 
 WORKDIR /app
 
-RUN cache verify
+RUN npm cache verify
 RUN npm rebuild
 RUN npm install -g contentful-cli
 
