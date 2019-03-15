@@ -11,5 +11,4 @@ RUN npm install -g nodemon
 
 COPY . .
 
-USER node
 EXPOSE 3000
