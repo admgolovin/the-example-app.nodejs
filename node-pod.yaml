@@ -31,6 +31,7 @@ npm rebuild
 # git clone
 # cd /git/
 # npm install
+npm audit fix --force
 
 # npm install -g contentful-cli
 
