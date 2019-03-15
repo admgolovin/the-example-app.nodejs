@@ -28,7 +28,6 @@ spec:
         - name: {{ .Chart.Name }}-blue
           image: "{{ .Values.image.repository }}:{{ .Values.image.deploy_blue }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['sh', '-c', 'java -jar helloworld-springboot-0.0.1-SNAPSHOT.jar']
           ports:
             - name: http
               containerPort: 8080
