@@ -44,14 +44,12 @@ spec:
         ephemeral-storage: "2Gi"
       requests:
         ephemeral-storage: "100Mi"
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
 
   volumes:
   - name: docker-sock
     hostPath:
       path: /var/run/docker.sock
+
 """
         }
     }
