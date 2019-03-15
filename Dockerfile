@@ -1,11 +1,13 @@
-FROM node:9
+FROM node
 
 WORKDIR /app
 
+RUN cache verify
+RUN npm rebuild
 RUN npm install -g contentful-cli
 
 COPY package.json .
-RUN npm install
+RUN npm install -g nodemon
 
 COPY . .
 

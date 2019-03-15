@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-pod
+  labels:
+    job: node-pod-app
+spec:
+  containers:
+  - name: node
+    image: node
+    tty: true
+    ports:
+    - name: https
+      containerPort: 3000
+      protocol: TCP
+    command: ["cat"]
+  - name: alpine
+    image: alpine
+    command: ["sh", "-ce", "tail -f /dev/null"]
+    tty: true
+
+
+# git clone
+
+
+
+npm cache clean
+npm cache verify
+npm rebuild
+
+# git clone
+# cd /git/
+# npm install
+
+# npm install -g contentful-cli
+
+# npm install -g nodemon
