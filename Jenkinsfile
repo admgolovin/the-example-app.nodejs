@@ -47,6 +47,11 @@ spec:
   - name: docker-sock
     hostPath:
       path: /var/run/docker.sock
+
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
 """
         }
     }
