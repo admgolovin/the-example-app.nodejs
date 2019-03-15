@@ -1,0 +1,58 @@
+{{if .Values.green.enabled}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "MyApp.fullname" . }}-green
+  labels:
+    app.kubernetes.io/name: {{ include "MyApp.name" . }}
+    helm.sh/chart: {{ include "MyApp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    DeploymentType: green
+spec:
+  replicas: {{ .Values.replicaCount2 }}
+  selector:
+    matchLabels:
+      AppVersion: {{ .Values.release.number}}
+      app.kubernetes.io/name: {{ include "MyApp.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "MyApp.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        AppVersion: {{ .Values.release.number}}
+        DeploymentType: green
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-green
+          image: "{{ .Values.image.repository }}:{{ .Values.image.deploy_green }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['sh', '-c', 'java -jar helloworld-springboot-0.0.1-SNAPSHOT.jar']
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}

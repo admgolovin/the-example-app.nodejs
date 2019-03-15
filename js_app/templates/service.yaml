@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "MyApp.fullname" . }}-blue
+  labels:
+    app.kubernetes.io/name: {{ include "MyApp.name" . }}
+    helm.sh/chart: {{ include "MyApp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    DeploymentType: blue
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    DeploymentType: {{ .Values.productionSlot}}

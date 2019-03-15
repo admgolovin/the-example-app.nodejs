@@ -90,7 +90,8 @@ spec:
           steps{
             container('helm-cli'){
               script {
-                currentSlot = sh(script: "helm get values --all maven | grep 'productionSlot:' | cut -d ' ' -f2 | tr -d '[:space:]'", returnStdout: true).trim()
+                sh "ls -a"
+                currentSlot = sh(script: "helm get values --all js_app the-example-app.nodejs/js_app | grep 'productionSlot:' | cut -d ' ' -f2 | tr -d '[:space:]'", returnStdout: true).trim()
                 if (currentSlot == "blue") {
                     newSlot="green"
                     tagVar="image.deploy_green"
@@ -100,23 +101,21 @@ spec:
                     tagVar="image.deploy_blue"
                 } 
                 else {
-                    sh "helm install -n maven getting-started-java/helloworld-springboot/maven/ --set image.deploy_blue=${revision},blue.enabled=true"
+                    sh "helm install -n js_app the-example-app.nodejs/js_app --set image.deploy_blue=${revision},blue.enabled=true"
                     return
                   }
-
-                sh "ls maven getting-started-java/helloworld-springboot/maven/values.yaml"
                         
-                sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
+                sh "helm upgrade js_app the-example-app.nodejs/js_app  --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
                 
                 userInput = input(message: 'Switch productionSlot? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                         
                 if (userInput == "y") {
-                    sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set productionSlot=${newSlot} --reuse-values"
+                    sh "helm upgrade js_app the-example-app.nodejs/js_app  --set productionSlot=${newSlot} --reuse-values"
                 }
                 userInput = input(message: 'Delete old deployment? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                 
                 if (userInput == "y") {
-                    sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${currentSlot}.enabled=false --reuse-values"
+                    sh "helm upgrade js_app the-example-app.nodejs/js_app  --set ${currentSlot}.enabled=false --reuse-values"
                   }
               }
             }
