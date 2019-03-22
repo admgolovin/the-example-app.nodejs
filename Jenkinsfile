@@ -6,7 +6,7 @@ pipeline {
 
     agent {
         kubernetes {
-            label 'build-service-pod'
+            label 'build-service-pod-js'
             yaml """
 apiVersion: v1
 kind: Pod

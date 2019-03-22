@@ -5,6 +5,17 @@
 replicaCount: 1
 replicaCount2: 1
 
+hpa:
+  enabled: true
+  maxReplicas: 2
+  # average total CPU usage per pod (1-100)
+  cpu: 80
+  # average memory usage per pod (100Mi-1Gi)
+  memory:
+  # average http requests per second per pod (k8s-prometheus-adapter)
+  requests:
+
+
 blue: 
   enabled: false
 green: 
