@@ -1,6 +1,7 @@
 def branch
 def revision
 def registryIp
+def testIp
 
 pipeline {
 
